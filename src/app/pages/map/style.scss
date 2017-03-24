@@ -1,0 +1,16 @@
+
+  #map {
+    height:100%;
+    background-color: #949494;
+  }
+  map-container {
+    flex: 1;
+  }
+  .top-map-menu {
+    padding: 15px;
+    position: absolute;
+  }
+.on-map {
+    position: absolute;
+    z-index:1000;
+}
