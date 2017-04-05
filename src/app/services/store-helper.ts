@@ -13,27 +13,27 @@ export class StoreHelper {
     // This object is concatinated with current state and stored in state service
     // Copies from state service to this one
     const currentState = this.store.getState();
-    this.store.setState(Object.assign({}, currentState, { [prop]: state }));
+    this.store.setState((<any>Object).assign({}, currentState, { [prop]: state }));
   }
 
   add(prop, state) {
     const currentState = this.store.getState();
     const collection = currentState[prop];
-    this.store.setState(Object.assign({}, currentState, { [prop]: [state, ...collection] }));
+    this.store.setState((<any>Object).assign({}, currentState, { [prop]: [state, ...collection] }));
   }
   findAndUpdate(prop, state) {
     const currentState = this.store.getState();
     const collection = currentState[prop];
-    this.store.setState(Object.assign({}, currentState, {[prop]: collection.map(item => {
+    this.store.setState((<any>Object).assign({}, currentState, {[prop]: collection.map(item => {
       if (item.id !== state.id) {
         return item;
       }
-      return Object.assign({}, item, state)
+      return (<any>Object).assign({}, item, state)
     })}))
   }
   findAndDelete(prop, id) {
     const currentState = this.store.getState();
     const collection = currentState[prop];
-    this.store.setState(Object.assign({}, currentState, {[prop]: collection.filter(item => item.id !== id)}));
+    this.store.setState((<any>Object).assign({}, currentState, {[prop]: collection.filter(item => item.id !== id)}));
   }
 }

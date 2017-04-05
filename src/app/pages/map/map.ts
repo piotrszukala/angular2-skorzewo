@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { MapService } from '../../services';
-import { MarkerComponent, SearchComponent, ResultComponent } from '../../components';
+import { MarkerComponent, SearchComponent } from '../../components';
 
 // Change the component because we want to store data in state not in the component directly
 import { Store } from '../../store';
@@ -16,7 +16,6 @@ import { Store } from '../../store';
       <search-form></search-form>
       <marker></marker>
     </div>  
-    <search-result></search-result>
     <div id="map"></div>
   `
 })

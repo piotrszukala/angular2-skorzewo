@@ -52,7 +52,7 @@ export class ApiService {
     }
   }
 
-  get(path: string, search: {}): Observable<any> {
+  get(path: string, search?: {}): Observable<any> {
     this.setParams(search);
 
     return this.http.get(`${this.api_url}${path}`,  this.options)
@@ -67,7 +67,7 @@ export class ApiService {
     return this.http.post(
       `${this.api_url}${path}`,
       JSON.stringify(body),
-      {headers: this.options}
+      {headers: this.options.headers}
     )
     .map(this.checkForError)
     .catch(err => Observable.throw(err))
@@ -84,7 +84,7 @@ export class ApiService {
   //Method to update headers to add auth token
   setHeaders(headers) {
     Object.keys(headers)
-    .forEach(header => this.options.set(header, headers[header]))
+    // .forEach(header => this.options.set(header, headers[header]))
   }
 }
 
