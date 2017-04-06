@@ -8,10 +8,11 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 // providers is an array of services
 import { App, providers, routes } from './app';
 import { MainContainer, AuthContainer, GridContainer, MapContainer } from './app/pages';
-import { AppBar, MarkerComponent, SearchComponent } from  './app/components';
+import { AppBar, MarkerComponent, SearchComponent, SidebarComponent } from  './app/components';
 
 import { AgGridModule } from 'ag-grid-ng2/main';
 import { MaterialModule } from '@angular/material';
+import { SidebarModule } from 'ng-sidebar';
 
 import 'hammerjs';
 
@@ -25,7 +26,8 @@ import 'hammerjs';
     GridContainer,
     MapContainer,
     MarkerComponent,
-    SearchComponent
+    SearchComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule, 
@@ -33,6 +35,7 @@ import 'hammerjs';
     HttpModule,
     AgGridModule.withComponents([]),
     MaterialModule.forRoot(),
+    SidebarModule.forRoot(),
     routes // because routes is a module (MOduleWithProviders) it should be injecteds here
   ],
   providers: providers,

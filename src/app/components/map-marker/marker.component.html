@@ -4,12 +4,15 @@
     class="md-button on-map"     
     title="Add Marker" 
     (click)="toggleEditing()" 
-    [class.btn-primary]="editing"
->
+    [class.btn-primary]="editing">
     <i class="material-icons">room</i>
 </button>
-Gdzie jest ten feature
-<button md-button id="remove-marker" class="md-button on-map" [class.btn-primary]="removing"
-        title="Remove Marker" (click)="toggleRemoving()" btnCheckbox>
+<button 
+    md-button 
+    id="remove-marker" 
+    class="md-button on-map" 
+    [class.btn-primary]="removing"    
+    title="Remove Marker" 
+    (click)="toggleRemoving()">
     <i class="material-icons">delete</i>
 </button>

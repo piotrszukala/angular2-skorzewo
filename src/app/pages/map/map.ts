@@ -13,8 +13,9 @@ import { Store } from '../../store';
   ],
   template: `
     <div class="top-map-menu">
-      <search-form></search-form>
+      
       <marker></marker>
+      <side-bar></side-bar>
     </div>  
     <div id="map"></div>
   `
