@@ -20,9 +20,10 @@
         (onClosed)="_onClosed()"
         (onAnimationStart)="_onAnimationStart($event)"
         (onAnimationDone)="_onAnimationDone($event)">
-        <p>Sidebar contents</p>
-        <button class="demo-control" (click)="toggleOpened()">Close sidebar</button>
-        <p><a closeSidebar>This will close the sidebar too</a></p>
+        <i (click)="toggleOpened()" class="material-icons close">cancel</i>
+        <p>Wyszukaj osobę</p>
+        <!--<button class="demo-control" (click)="toggleOpened()">Close sidebar</button>
+        <p><a closeSidebar>This will close the sidebar too</a></p>-->
         <search-form></search-form>
       </ng-sidebar>
       <header class="on-map demo-header">

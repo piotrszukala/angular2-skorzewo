@@ -2,7 +2,10 @@ import { Component, AnimationTransitionEvent, ChangeDetectorRef } from '@angular
 
 @Component({
   selector: 'side-bar',
-  template: require('./side-bar.html')
+  template: require('./side-bar.html'),
+  styles: [
+    require ('./style.scss')
+  ]
 })
 export class SidebarComponent {
 
