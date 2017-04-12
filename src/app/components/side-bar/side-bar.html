@@ -1,19 +1,32 @@
 <ng-sidebar-container>
-  <ng-sidebar [(opened)]="_opened" [mode]="_MODES[_modeNum]" [keyClose]="_keyClose" [position]="_POSITIONS[_positionNum]" [dockedSize]="'50px'"
-    [autoCollapseHeight]="_autoCollapseHeight" [autoCollapseWidth]="_autoCollapseWidth" [closeOnClickOutside]="_closeOnClickOutside"
-    [showBackdrop]="_showBackdrop" [animate]="_animate" [trapFocus]="_trapFocus" [autoFocus]="_autoFocus" [sidebarClass]="'demo-sidebar'"
-    [ariaLabel]="'My sidebar'" (onOpenStart)="_onOpenStart()" (onOpened)="_onOpened()" (onCloseStart)="_onCloseStart()" (onClosed)="_onClosed()"
-    (onAnimationStart)="_onAnimationStart($event)" (onAnimationDone)="_onAnimationDone($event)">
+  <ng-sidebar 
+  [(opened)]="_opened" 
+  [mode]="_MODES[_modeNum]" 
+  [keyClose]="_keyClose" 
+  [position]="_POSITIONS[_positionNum]" 
+  [dockedSize]="'50px'"
+  [autoCollapseHeight]="_autoCollapseHeight" 
+  [autoCollapseWidth]="_autoCollapseWidth" 
+  [closeOnClickOutside]="_closeOnClickOutside"
+  [showBackdrop]="_showBackdrop" 
+  [animate]="_animate" 
+  [trapFocus]="_trapFocus" 
+  [autoFocus]="_autoFocus" 
+  [sidebarClass]="'demo-sidebar'"
+  [ariaLabel]="'My sidebar'" 
+  
+  (onOpenStart)="_onOpenStart()" 
+  (onOpened)="_onOpened()" 
+  (onCloseStart)="_onCloseStart()" 
+  (onClosed)="_onClosed()"
+  (onAnimationStart)="_onAnimationStart($event)" 
+  (onAnimationDone)="_onAnimationDone($event)">
 
     <div class="search-form__header">
       <p>Wyszukaj osobę</p>
       <i (click)="toggleOpened()" class="material-icons close">cancel</i>
     </div>
-
-    <!--<button class="demo-control" (click)="toggleOpened()">Close sidebar</button>
-        <p><a closeSidebar>This will close the sidebar too</a></p>-->
     <search-form></search-form>
+    <person-list></person-list>
   </ng-sidebar>
-  <header class="on-map demo-header">
-  </header>
 </ng-sidebar-container>

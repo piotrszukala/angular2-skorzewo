@@ -8,7 +8,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 // providers is an array of services
 import { App, providers, routes } from './app';
 import { MainContainer, AuthContainer, GridContainer, MapContainer } from './app/pages';
-import { AppBar, MarkerComponent, SearchComponent, SidebarComponent } from  './app/components';
+import { AppBar, MarkerComponent, SearchComponent, SidebarComponent, PersonListComponent } from  './app/components';
 
 import { AgGridModule } from 'ag-grid-ng2/main';
 import { MaterialModule } from '@angular/material';
@@ -27,7 +27,8 @@ import 'hammerjs';
     MapContainer,
     MarkerComponent,
     SearchComponent,
-    SidebarComponent
+    SidebarComponent,
+    PersonListComponent
   ],
   imports: [
     BrowserModule, 
