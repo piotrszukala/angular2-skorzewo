@@ -15,16 +15,22 @@
         background-color: $background-color; 
         position: relative;
         top: -13px;
-        overflow: auto; 
-        li {
-            display: flex;
-            height: 30px;
+        overflow: auto;
+        ul {
+            margin: 0px;
+            padding: 10px;
+            border: 0px;
             cursor: pointer;
-            list-style-type: none;
-            transition: color 0.1s;
+            transition: background-color 0.2s;
             &:hover {
-                color: $primary-text-color / 10;
+                background-color: rgba($primary-color, .4);
             }
+        } 
+        li {
+            // display: flex;
+            
+            list-style-type: none;
+            
         }     
     }
     md-input-container {
