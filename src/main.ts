@@ -1,42 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '@angular/material';
+import { MapModule } from './app/modules'
 // Module needed to http service
-import { HttpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 // Widoczne w plikach index.ts
 // providers is an array of services
 import { App, providers, routes } from './app';
 import { MainContainer, AuthContainer, GridContainer, MapContainer } from './app/pages';
-import { AppBar, MarkerComponent, SearchComponent, SidebarComponent, PersonListComponent } from  './app/components';
-
+import { PersonListComponent, SearchComponent, SidebarComponent, MarkerComponent, AppBar } from './app/components';
 import { AgGridModule } from 'ag-grid-ng2/main';
-import { MaterialModule } from '@angular/material';
-import { SidebarModule } from 'ng-sidebar';
-
-import 'hammerjs';
-
 
 @NgModule({
   declarations: [
     App, 
+    // MapContainer,
     MainContainer,
-    AppBar,
     AuthContainer,
     GridContainer,
-    MapContainer,
-    MarkerComponent,
-    SearchComponent,
-    SidebarComponent,
-    PersonListComponent
+    AppBar
   ],
   imports: [
     BrowserModule, 
+    MapModule,
     FormsModule,
-    HttpModule,
-    AgGridModule.withComponents([]),
     MaterialModule.forRoot(),
-    SidebarModule.forRoot(),
+    AgGridModule.withComponents([]),
     routes // because routes is a module (MOduleWithProviders) it should be injecteds here
   ],
   providers: providers,

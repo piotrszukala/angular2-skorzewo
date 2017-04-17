@@ -1,6 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { MainContainer, MapContainer, AuthContainer, GridContainer } from './pages';
+import { MainContainer, AuthContainer, GridContainer, MapContainer } from './pages';
 import { AuthService } from './services'
 
 // Routing tree should has reflection in templates <route-outlet> instead of component selectors
