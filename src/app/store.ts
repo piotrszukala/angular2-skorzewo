@@ -58,7 +58,10 @@ const defaultState: State = {
                         "Moldova","Monaco","Montenegro","Netherlands","Norway","Poland",
                         "Portugal","Romania","Russia","San Marino","Serbia","Slovakia","Slovenia",
                         "Spain","Sweden","Switzerland","Turkey","Ukraine","United Kingdom","Vatican City"],
-  personList: [{name: "Iwona", surname: "Nowak", birth: 1960, death: 2000}],
+  personList: [
+    {name: "Iwona", surname: "Nowak", birth: 1960, death: 2000},
+    {name: "Tadeusz", surname: "Nowak", birth: 1970, death: 2010}
+  ],
   osobyAll: [],
   notes: [],
   user: {}

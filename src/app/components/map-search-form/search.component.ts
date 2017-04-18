@@ -51,7 +51,7 @@ export class SearchComponent {
     
 
     public query = '';
-    public countries: Array<any>;
+    public surnameList: Array<any>;
     public filteredList = [];
     public elementRef;
  
@@ -63,12 +63,12 @@ export class SearchComponent {
         ) {
         this.elementRef = myElement;
             
-        this.countries = this.store.getState().surnameList;   
+        this.surnameList = this.store.getState().surnameList;   
     }
 
     filter() {
         if (this.query !== "") {
-            this.filteredList = this.countries.filter(function(el){
+            this.filteredList = this.surnameList.filter(function(el){
                 return el.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
             }.bind(this));
         }else{
