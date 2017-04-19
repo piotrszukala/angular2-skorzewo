@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 // import {Location} from "../core/location.class";
 import { Map } from "leaflet";
 import {Http} from "@angular/http";
+import { ApiService } from "./api";
+import { StoreHelper } from "./store-helper";
+import { Store } from "../store";
 
 @Injectable()
 export class MapService {
@@ -9,7 +12,11 @@ export class MapService {
     public baseMaps: any;
     private vtLayer: any;
 
-    constructor(private http: Http) {
+    constructor(
+        private store: Store,
+        private api: ApiService,
+        private storeHelper: StoreHelper
+    ) {
         this.baseMaps = {
             OpenStreetMap: L.tileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
@@ -21,6 +28,12 @@ export class MapService {
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
             })
         };
+
+        this.store.changes
+        .map(data => data.persons)
+        .subscribe(persons => {
+            this.vtLayer = persons
+        })
     }
 
     disableMouseEvent(elementId: string) {
@@ -30,12 +43,15 @@ export class MapService {
         L.DomEvent.disableScrollPropagation(element);
     };
 
-    getPerosonsBySurname() {
-        this.vtLayer = [];
-        this.http.get("https://rawgit.com/haoliangyu/angular2-leaflet-starter/master/public/data/airports.geojson")
-            .map(res => res.json())
-            .subscribe(result => {
-                L.geoJSON(result).addTo(this.map);
-            });
+    getPerosonsBySurname(req) {
+        return this.api.get('/persons', req)
+        .do((resp:any) => this.storeHelper.update('persons', resp))
+
+        // this.vtLayer = [];
+        // this.http.get("https://rawgit.com/haoliangyu/angular2-leaflet-starter/master/public/data/airports.geojson")
+        //     .map(res => res.json())
+        //     .subscribe(result => {
+        //         L.geoJSON(result).addTo(this.map);
+        //     });
     }
 }

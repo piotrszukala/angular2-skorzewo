@@ -2,6 +2,7 @@ import {Component, ElementRef} from "@angular/core";
 import { Store } from "../../store";
 import { ApiService } from "../../services/api";
 import { StoreHelper } from "../../services/store-helper";
+import { MapService } from "../../services/map.service";
 // import {GeocodingService} from "../../services/geocoding.service";
 // import {MapService} from "../../services/map.service";
 // import {Location} from "../../core/location.class";
@@ -18,38 +19,8 @@ import { StoreHelper } from "../../services/store-helper";
     },
     providers: []
 })
-// export class SearchComponentxxx {
-//     address: string;
-
-//     private map: Map;
-
-//     constructor(
-//         // private geocoder: GeocodingService, 
-//         private mapService: MapService
-//     ) {
-//         this.address = "";
-//     }
-
-//     ngOnInit() {
-//         this.mapService.disableMouseEvent("goto");
-//         this.mapService.disableMouseEvent("place-input");
-//         this.map = this.mapService.map;
-//     }
-
-    // goto() {
-    //     if (!this.address) { return; }
-
-    //     this.geocoder.geocode(this.address)
-    //     .subscribe(location => {
-    //         this.map.fitBounds(location.viewBounds, {});
-    //         this.address = location.address;
-    //     }, error => console.error(error));
-    // }
-// }
 
 export class SearchComponent {
-    
-
     public query = '';
     public surnameList: Array<any>;
     public filteredList = [];
@@ -59,7 +30,8 @@ export class SearchComponent {
         myElement: ElementRef,
         private store: Store,
         private api: ApiService,
-        private storeHelper: StoreHelper
+        private storeHelper: StoreHelper,
+        private mapService: MapService
         ) {
         this.elementRef = myElement;
             
@@ -78,15 +50,14 @@ export class SearchComponent {
     
     
     getOsoby(req) {
-        return this.api.get('/getOsoby', req)
-        .do((resp:any) => this.storeHelper.update('osobyList', resp))
+        this.mapService.getPerosonsBySurname(req)
+        .subscribe();
     }
 
     select(item) {
         this.query = item;
         this.filteredList = [];
         this.getOsoby({item})
-        .subscribe()
     }
 
     handleClick(event){

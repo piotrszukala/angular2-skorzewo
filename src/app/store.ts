@@ -32,7 +32,7 @@ export interface Note {
   userId?: string
 }
 
-export interface SelectedPerson {}
+export interface Persons {}
 
 export interface User {
   // If something is fraking out properties could be optional (with ?)
@@ -47,7 +47,7 @@ export interface State {
   osobyAll: OsobyAll[],
   notes: Note[], // Is the same as Array<Note>
   user: User,
-  selectedPerson: SelectedPerson
+  persons: Persons
 }
 
 //Default state
@@ -68,7 +68,7 @@ const defaultState: State = {
   osobyAll: [],
   notes: [],
   user: {},
-  selectedPerson: {"type": "FeatureCollection", "features": [{"geometry": {"type": "MultiPolygon", "coordinates": [[[[16.7956785469656, 52.3897496174543], [16.7956649894857, 52.3897638791059], [16.7956875942652, 52.3897719228163], [16.7957011517393, 52.3897576611614], [16.7956785469656, 52.3897496174543]]]]}, "type": "Feature", "properties": {"nr_ksiega": null, "prolongata": null, "numer": "10/17/1", "kwatera": 10, "foto": "10_17_1.jpg", "parcela": "1", "uwagi": null, "rzad": "17", "typ": "grobowiec", "parafia": null}}]}
+  persons: {"type": "FeatureCollection", "features": [{"geometry": {"type": "MultiPolygon", "coordinates": [[[[16.7956785469656, 52.3897496174543], [16.7956649894857, 52.3897638791059], [16.7956875942652, 52.3897719228163], [16.7957011517393, 52.3897576611614], [16.7956785469656, 52.3897496174543]]]]}, "type": "Feature", "properties": {"nr_ksiega": null, "prolongata": null, "numer": "10/17/1", "kwatera": 10, "foto": "10_17_1.jpg", "parcela": "1", "uwagi": null, "rzad": "17", "typ": "grobowiec", "parafia": null}}]}
 
 }
 
