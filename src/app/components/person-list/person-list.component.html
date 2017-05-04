@@ -1,12 +1,12 @@
 <div>
     <div class="person-list" *ngFor="let person of personList" (click)="select(person)">
         <div class="person-list__name">
-            <span>{{person.surname}}</span>
-            <span>{{person.name}}</span>
+            <span>{{person.nazwisko}}</span>
+            <span>{{person.imie}}</span>
         </div>
         <div class="person-list__dates">
-            <span class="person-list__dates--birth">{{person.birth}}</span>
-            <span class="person-list__dates--death">{{person.death}}</span>
+            <span class="person-list__dates--birth">{{person.rok_ur}}</span>
+            <span class="person-list__dates--death">{{person.rok_sm}}</span>
         </div>
     </div>
 </div>

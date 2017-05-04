@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from "../../store";
 import { ApiService } from "../../services/api";
 import { StoreHelper } from "../../services/store-helper";
@@ -11,7 +11,7 @@ import { StoreHelper } from "../../services/store-helper";
     require ('./style.scss')
   ]
 })
-export class PersonListComponent {
+export class PersonListComponent implements OnInit {
 
   public personList: Array<any>;
 
@@ -19,9 +19,12 @@ export class PersonListComponent {
     private store: Store,
     private api: ApiService,
     private storeHelper: StoreHelper
-  ) {
-    this.personList = this.store.getState().personList;   
-  }
+  ) {}
+
+  ngOnInit() {
+        this.store.changes.pluck('personList')
+        .subscribe((personList: any) => this.personList = personList);
+    }
 
   getOsoby(req) {
     return this.api.get('/groby', req)

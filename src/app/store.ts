@@ -39,6 +39,8 @@ export interface User {
   id?: string
 }
 
+export interface Graves {}
+
 // Interface od notes. It is an array of notes
 export interface State {
   // requires Note interface from above
@@ -47,28 +49,20 @@ export interface State {
   osobyAll: OsobyAll[],
   notes: Note[], // Is the same as Array<Note>
   user: User,
-  persons: Persons
+  persons: Persons,
+  graves: Graves
 }
 
 //Default state
 // This app has only one state "notes" thus this one and same default state
 const defaultState: State = {
-  surnameList: ["Albania","Andorra","Armenia","Austria","Azerbaijan","Belarus",
-                        "Belgium","Bosnia & Herzegovina","Bulgaria","Croatia","Cyprus",
-                        "Czech Republic","Denmark","Estonia","Finland","France","Georgia",
-                        "Germany","Greece","Hungary","Iceland","Ireland","Italy","Kosovo",
-                        "Latvia","Liechtenstein","Lithuania","Luxembourg","Macedonia","Malta",
-                        "Moldova","Monaco","Montenegro","Netherlands","Norway","Poland",
-                        "Portugal","Romania","Russia","San Marino","Serbia","Slovakia","Slovenia",
-                        "Spain","Sweden","Switzerland","Turkey","Ukraine","United Kingdom","Vatican City"],
-  personList: [
-    {name: "Iwona", surname: "Nowak", birth: 1960, death: 2000},
-    {name: "Tadeusz", surname: "Nowak", birth: 1970, death: 2010}
-  ],
+  surnameList: [],
+  personList: [],
   osobyAll: [],
   notes: [],
   user: {},
-  persons: {"type": "FeatureCollection", "features": [{"geometry": {"type": "MultiPolygon", "coordinates": [[[[16.7956785469656, 52.3897496174543], [16.7956649894857, 52.3897638791059], [16.7956875942652, 52.3897719228163], [16.7957011517393, 52.3897576611614], [16.7956785469656, 52.3897496174543]]]]}, "type": "Feature", "properties": {"nr_ksiega": null, "prolongata": null, "numer": "10/17/1", "kwatera": 10, "foto": "10_17_1.jpg", "parcela": "1", "uwagi": null, "rzad": "17", "typ": "grobowiec", "parafia": null}}]}
+  persons: [],
+  graves: {}
 
 }
 

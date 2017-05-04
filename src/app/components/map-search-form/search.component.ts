@@ -1,4 +1,4 @@
-import {Component, ElementRef} from "@angular/core";
+import {Component, ElementRef, OnInit} from "@angular/core";
 import { Store } from "../../store";
 import { ApiService } from "../../services/api";
 import { StoreHelper } from "../../services/store-helper";
@@ -20,7 +20,8 @@ import { MapService } from "../../services/map.service";
     providers: []
 })
 
-export class SearchComponent {
+export class SearchComponent implements OnInit{
+
     public query = '';
     public surnameList: Array<any>;
     public filteredList = [];
@@ -34,8 +35,14 @@ export class SearchComponent {
         private mapService: MapService
         ) {
         this.elementRef = myElement;
-            
-        this.surnameList = this.store.getState().surnameList;   
+    }
+
+    ngOnInit() {
+        this.api.get('/persons/surnameList')
+        .subscribe(resp => this.storeHelper.update('surnameList', resp));
+        
+        this.store.changes.pluck('surnameList')
+        .subscribe((surnameList: any) => this.surnameList = surnameList);
     }
 
     filter() {
@@ -47,17 +54,11 @@ export class SearchComponent {
             this.filteredList = [];
         }
     }
-    
-    
-    getOsoby(req) {
-        this.mapService.getPerosonsBySurname(req)
-        .subscribe();
-    }
 
     select(item) {
         this.query = item;
         this.filteredList = [];
-        this.getOsoby({item})
+        this.mapService.getPerosonsAndGravesBySurname(item)
     }
 
     handleClick(event){

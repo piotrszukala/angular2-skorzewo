@@ -5,12 +5,14 @@ import {Http} from "@angular/http";
 import { ApiService } from "./api";
 import { StoreHelper } from "./store-helper";
 import { Store } from "../store";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Injectable()
 export class MapService {
     public map: Map;
     public baseMaps: any;
-    private vtLayer: any;
+    private vtLayer: any = L.geoJSON();
 
     constructor(
         private store: Store,
@@ -29,11 +31,14 @@ export class MapService {
             })
         };
 
-        this.store.changes
-        .map(data => data.persons)
-        .subscribe(persons => {
-            this.vtLayer = persons
-        })
+        this.store.changes.pluck('graves')
+        .subscribe((graves: any) => {
+            if (graves.features && graves.features.length) {
+                this.vtLayer.clearLayers();
+                this.vtLayer.addData(graves).addTo(this.map);
+                this.map.fitBounds(this.vtLayer.getBounds())
+            }  
+    });
     }
 
     disableMouseEvent(elementId: string) {
@@ -43,9 +48,19 @@ export class MapService {
         L.DomEvent.disableScrollPropagation(element);
     };
 
-    getPerosonsBySurname(req) {
-        return this.api.get('/persons', req)
-        .do((resp:any) => this.storeHelper.update('persons', resp))
+    getPerosonsAndGravesBySurname(surname) {
+
+    let persons = this.api.get('/persons', {surname});
+    let graves = this.api.get('/graves', {surname});
+
+    Observable.forkJoin([persons, graves]).subscribe(results => {
+      this.storeHelper.update('personList', results[0])
+      this.storeHelper.update('graves', results[1])
+    })
+
+
+        // return this.api.get('/persons', req)
+        // .do((resp:any) => this.storeHelper.update('persons', resp))
 
         // this.vtLayer = [];
         // this.http.get("https://rawgit.com/haoliangyu/angular2-leaflet-starter/master/public/data/airports.geojson")
