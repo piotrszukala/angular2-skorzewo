@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 // import {Location} from "../core/location.class";
 import { Map } from "leaflet";
-import {Http} from "@angular/http";
+import { Http } from "@angular/http";
 import { ApiService } from "./api";
 import { StoreHelper } from "./store-helper";
 import { Store } from "../store";
@@ -9,10 +9,18 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 @Injectable()
-export class MapService {
+export class MapService{
     public map: Map;
     public baseMaps: any;
+    private graves: any;
     private vtLayer: any = L.geoJSON();
+    
+    private selectedStyle: any = {
+            color: "#ff7800"
+        }
+    private selectedGrave: any = L.geoJSON()
+        
+        
 
     constructor(
         private store: Store,
@@ -32,41 +40,58 @@ export class MapService {
         };
 
         this.store.changes.pluck('graves')
-        .subscribe((graves: any) => {
-            if (graves.features && graves.features.length) {
-                this.vtLayer.clearLayers();
-                this.vtLayer.addData(graves).addTo(this.map);
-                this.map.fitBounds(this.vtLayer.getBounds())
-            }  
-    });
+            .subscribe((graves: any) => {
+                if (graves.features && graves.features.length) {
+                    this.selectedGrave.clearLayers();
+                    
+                    this.graves = graves;
+                    this.vtLayer.clearLayers();
+                    this.vtLayer.addData(graves).addTo(this.map);
+                    this.map.fitBounds(this.vtLayer.getBounds())
+                }
+            });
+
     }
 
     disableMouseEvent(elementId: string) {
         let element = <HTMLElement>document.getElementById(elementId);
-
         L.DomEvent.disableClickPropagation(element);
         L.DomEvent.disableScrollPropagation(element);
     };
 
-    getPerosonsAndGravesBySurname(surname) {
+    getPerosonsAndGravesBySurname(surname: string) {
+        let persons = this.api.get('/persons', { surname });
+        let graves = this.api.get('/graves', { surname });
 
-    let persons = this.api.get('/persons', {surname});
-    let graves = this.api.get('/graves', {surname});
+        Observable.forkJoin([persons, graves]).subscribe(results => {
+            this.storeHelper.update('personList', results[0])
+            this.storeHelper.update('graves', results[1])
+        })
+    }
 
-    Observable.forkJoin([persons, graves]).subscribe(results => {
-      this.storeHelper.update('personList', results[0])
-      this.storeHelper.update('graves', results[1])
-    })
+    getSelectedGrave(person:any) {
+        let graveId = person.numer;
+        let findGrave = (feat) => feat.properties.numer === graveId
+        let selectedGrave = this.graves.features.find(findGrave);
+        this.addSelectedGrave(selectedGrave);
+        let coords = this.selectedGrave
+            .getBounds()
+            .getCenter();
 
+        this.getPersonsByCoords(coords)
+    }
 
-        // return this.api.get('/persons', req)
-        // .do((resp:any) => this.storeHelper.update('persons', resp))
+    addSelectedGrave(grave: any) {
+        this.selectedGrave
+            .clearLayers()
+            .addData(grave)
+            .setStyle(this.selectedStyle)
+            .addTo(this.map);
+        this.map.fitBounds(this.selectedGrave.getBounds())
+    }
 
-        // this.vtLayer = [];
-        // this.http.get("https://rawgit.com/haoliangyu/angular2-leaflet-starter/master/public/data/airports.geojson")
-        //     .map(res => res.json())
-        //     .subscribe(result => {
-        //         L.geoJSON(result).addTo(this.map);
-        //     });
+    getPersonsByCoords(coords: {lat, lng}) {
+        this.api.get('/persons/grave', { lat:coords.lat, lng:coords.lng })
+        .subscribe(resp => this.storeHelper.update('personsByGrave', resp));
     }
 }

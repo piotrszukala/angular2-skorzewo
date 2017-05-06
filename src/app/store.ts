@@ -41,6 +41,8 @@ export interface User {
 
 export interface Graves {}
 
+export interface PersonsByGrave {} 
+
 // Interface od notes. It is an array of notes
 export interface State {
   // requires Note interface from above
@@ -50,8 +52,11 @@ export interface State {
   notes: Note[], // Is the same as Array<Note>
   user: User,
   persons: Persons,
-  graves: Graves
+  graves: Graves,
+  personsByGrave: PersonsByGrave[]
 }
+
+
 
 //Default state
 // This app has only one state "notes" thus this one and same default state
@@ -62,7 +67,8 @@ const defaultState: State = {
   notes: [],
   user: {},
   persons: [],
-  graves: {}
+  graves: {},
+  personsByGrave: []
 
 }
 

@@ -2,38 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from "../../store";
 import { ApiService } from "../../services/api";
 import { StoreHelper } from "../../services/store-helper";
+import { MapService } from "../../services";
 
 
 @Component({
-  selector: 'person-list',
-  template: require('./person-list.component.html'),
-  styles: [
-    require ('./style.scss')
-  ]
+    selector: 'person-list',
+    template: require('./person-list.component.html'),
+    styles: [
+        require('./style.scss')
+    ]
 })
 export class PersonListComponent implements OnInit {
 
-  public personList: Array<any>;
+    public personList: Array<any>;
 
-  constructor (
-    private store: Store,
-    private api: ApiService,
-    private storeHelper: StoreHelper
-  ) {}
+    constructor(
+        private store: Store,
+        private api: ApiService,
+        private storeHelper: StoreHelper,
+        private mapService: MapService
+    ) { }
 
-  ngOnInit() {
+    ngOnInit() {
         this.store.changes.pluck('personList')
-        .subscribe((personList: any) => this.personList = personList);
+            .subscribe((personList: any) => this.personList = personList);
     }
 
-  getOsoby(req) {
-    return this.api.get('/groby', req)
-    .do((resp:any) => this.storeHelper.update('groby', resp))
-  }
 
-  select(person) {
-    this.getOsoby({person})
-    .subscribe()
-  }
-  
+    select(person:object) {
+        this.mapService.getSelectedGrave(person);
+    }
+
 }

@@ -6,51 +6,55 @@ import { MarkerComponent, SearchComponent, SidebarComponent } from '../../compon
 import { Store } from '../../store';
 
 @Component({
-  selector: 'map-container',
-  styles: [
-    require('./style.scss'),
-    require('leaflet/dist/leaflet.css')
-  ],
-  template: require('./map.html')
+    selector: 'map-container',
+    styles: [
+        require('./style.scss'),
+        require('leaflet/dist/leaflet.css')
+    ],
+    template: require('./map.html')
 })
 export class MapContainer {
-  private _opened: boolean = false;
-  @ViewChild(MarkerComponent) markerComponent: MarkerComponent;
-  @ViewChild(SearchComponent) searchComponent: SearchComponent;
-  @ViewChild(SidebarComponent) sidebarComponent: SidebarComponent;
+    private _opened: boolean = false;
+    @ViewChild(MarkerComponent) markerComponent: MarkerComponent;
+    @ViewChild(SearchComponent) searchComponent: SearchComponent;
+    @ViewChild(SidebarComponent) sidebarComponent: SidebarComponent;
 
-  constructor(
-    private mapService: MapService
-  ) { }
+    constructor(
+        private mapService: MapService
+    ) { }
 
-  ngOnInit() {
-    let map = L.map("map", {
-      zoomControl: false,
-      center: L.latLng(40.731253, -73.996139),
-      zoom: 12,
-      minZoom: 4,
-      maxZoom: 19,
-      layers: [this.mapService.baseMaps.CartoDB]
-    });
+    ngOnInit() {
+        let map = L.map("map", {
+            zoomControl: false,
+            center: L.latLng(40.731253, -73.996139),
+            zoom: 12,
+            minZoom: 4,
+            maxZoom: 19,
+            layers: [this.mapService.baseMaps.CartoDB]
+        });
 
-    L.control.zoom({ position: "topright" }).addTo(map);
-    L.control.layers(this.mapService.baseMaps).addTo(map);
-    L.control.scale().addTo(map);
+        map.on('click', (e: any) => {
+            this.mapService.getPersonsByCoords(e.latlng)
+        });
 
-    this.mapService.map = map;
+        L.control.zoom({ position: "topright" }).addTo(map);
+        L.control.layers(this.mapService.baseMaps).addTo(map);
+        L.control.scale().addTo(map);
 
-    // this.geocoder.getCurrentLocation()
-    //     .subscribe(
-    //         location => map.panTo([location.latitude, location.longitude]),
-    //         err => console.error(err)
-    //     );
+        this.mapService.map = map;
 
-  }
-  ngAfterViewInit() {
-    this.markerComponent.Initialize();
-  }
+        // this.geocoder.getCurrentLocation()
+        //     .subscribe(
+        //         location => map.panTo([location.latitude, location.longitude]),
+        //         err => console.error(err)
+        //     );
 
-  togglePanelOpened() {
-    this.sidebarComponent.toggleOpened();
-  }
+    }
+    ngAfterViewInit() {
+        this.markerComponent.Initialize();
+    }
+
+    togglePanelOpened() {
+        this.sidebarComponent.toggleOpened();
+    }
 }
