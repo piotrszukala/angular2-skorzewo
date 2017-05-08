@@ -1,0 +1,11 @@
+<div class="modal">
+    <div class="modal-body">
+        <h1>A Custom Modal!</h1>
+        <p>
+            Home page text: <input type="text" [(ngModel)]="bodyText" />
+        </p>
+        <div *ngFor = 'let person of personsByGrave'>{{person.imie}}</div>
+        <button (click)="closeModal('personsByGrave');">Close</button>
+    </div>
+</div>
+<div class="modal-background"></div>

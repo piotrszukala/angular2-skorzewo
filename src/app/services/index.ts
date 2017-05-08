@@ -4,3 +4,4 @@ export { StoreHelper } from './store-helper';
 export { AuthService } from './auth';
 export { OsobyGridService } from './osobyGrid';
 export { MapService } from './map.service';
+export { ModalService } from './modal.service';

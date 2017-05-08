@@ -5,27 +5,29 @@ import { Http } from "@angular/http";
 import { ApiService } from "./api";
 import { StoreHelper } from "./store-helper";
 import { Store } from "../store";
+import { ModalService } from "./modal.service"; 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 @Injectable()
-export class MapService{
+export class MapService {
     public map: Map;
     public baseMaps: any;
     private graves: any;
     private vtLayer: any = L.geoJSON();
-    
+
     private selectedStyle: any = {
-            color: "#ff7800"
-        }
+        color: "#ff7800"
+    }
     private selectedGrave: any = L.geoJSON()
-        
-        
+
+
 
     constructor(
         private store: Store,
         private api: ApiService,
-        private storeHelper: StoreHelper
+        private storeHelper: StoreHelper,
+        private modalService: ModalService
     ) {
         this.baseMaps = {
             OpenStreetMap: L.tileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
@@ -39,18 +41,6 @@ export class MapService{
             })
         };
 
-        this.store.changes.pluck('graves')
-            .subscribe((graves: any) => {
-                if (graves.features && graves.features.length) {
-                    this.selectedGrave.clearLayers();
-                    
-                    this.graves = graves;
-                    this.vtLayer.clearLayers();
-                    this.vtLayer.addData(graves).addTo(this.map);
-                    this.map.fitBounds(this.vtLayer.getBounds())
-                }
-            });
-
     }
 
     disableMouseEvent(elementId: string) {
@@ -63,13 +53,20 @@ export class MapService{
         let persons = this.api.get('/persons', { surname });
         let graves = this.api.get('/graves', { surname });
 
-        Observable.forkJoin([persons, graves]).subscribe(results => {
-            this.storeHelper.update('personList', results[0])
-            this.storeHelper.update('graves', results[1])
-        })
+        Observable.forkJoin([persons, graves])
+            .do(results => {
+                this.storeHelper.update('personList', results[0])
+                this.storeHelper.update('graves', results[1])
+            })
+            .subscribe((results => {
+                this.graves = results[1];
+                this.vtLayer.clearLayers();
+                this.vtLayer.addData(this.graves).addTo(this.map);
+                this.map.fitBounds(this.vtLayer.getBounds())
+            }))
     }
 
-    getSelectedGrave(person:any) {
+    getSelectedGrave(person: any) {
         let graveId = person.numer;
         let findGrave = (feat) => feat.properties.numer === graveId
         let selectedGrave = this.graves.features.find(findGrave);
@@ -88,10 +85,22 @@ export class MapService{
             .setStyle(this.selectedStyle)
             .addTo(this.map);
         this.map.fitBounds(this.selectedGrave.getBounds())
+        this.openPopup('personsByGrave')
     }
 
-    getPersonsByCoords(coords: {lat, lng}) {
-        this.api.get('/persons/grave', { lat:coords.lat, lng:coords.lng })
-        .subscribe(resp => this.storeHelper.update('personsByGrave', resp));
+    
+    openPopup(id: string){
+        this.modalService.open(id);
+    }
+
+    getPersonsByCoords(coords: { lat, lng }) {
+        let persons = this.api.get('/persons/grave', { lat: coords.lat, lng: coords.lng });
+        let grave = this.api.get('/graves/select', { lat: coords.lat, lng: coords.lng });
+
+        Observable.forkJoin([persons, grave])
+            .subscribe(responses => {
+                this.storeHelper.update('personsByGrave', responses[0])
+                this.addSelectedGrave(responses[1])
+            });
     }
 }

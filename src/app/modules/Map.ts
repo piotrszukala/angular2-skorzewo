@@ -10,6 +10,7 @@ import { providers, routes } from '../';
 
 import { MapContainer } from '../pages';
 import { PersonListComponent, SearchComponent, SidebarComponent, MarkerComponent, AppBar } from '../components';
+import { MapPopupModule } from './Map-popup';
 
 import 'hammerjs';
 
@@ -19,16 +20,18 @@ import 'hammerjs';
         MarkerComponent,
         SearchComponent,
         SidebarComponent,
-        PersonListComponent,
+        PersonListComponent
         // AppBar
         // Component10Component,
     ],
     imports: [
+        MapPopupModule,
         CommonModule,
         HttpModule,
         FormsModule,
         MaterialModule.forRoot(),
         SidebarModule.forRoot(),
+        
         // RouterModule
         routes // because routes is a module (MOduleWithProviders) it should be injecteds here
     ],

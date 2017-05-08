@@ -12,7 +12,8 @@
     "types": [
       "hammerjs",
       "node",
-      "core-js"
+      "core-js",
+      "underscore"
     ]
   },
   "compileOnSave": false,
